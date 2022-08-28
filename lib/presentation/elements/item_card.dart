@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-
 import '../../configuration/front_end.dart';
 import 'custom_text.dart';
 
@@ -14,7 +12,6 @@ class ItemCard extends StatelessWidget {
     required this.description,
     required this.expiryDate,
     required this.itemQuantity,
-    this.isSlideAble,
   }) : super(key: key);
   final String itemPicture;
   final String itemName;
@@ -22,39 +19,13 @@ class ItemCard extends StatelessWidget {
   final String description;
   final String expiryDate;
   final String itemQuantity;
-  final bool? isSlideAble;
 
   @override
   Widget build(BuildContext context) {
-    return isSlideAble ?? false
-        ? Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: Slidable(
-              endActionPane: ActionPane(
-                motion: const ScrollMotion(),
-                children: [
-                  SlidableAction(
-                    backgroundColor: Colors.red,
-                    foregroundColor: FrontEndConfigs.kWhiteColor,
-                    icon: Icons.remove_circle,
-                    label: 'Remove',
-                    onPressed: (BuildContext context) {},
-                  ),
-                ],
-              ),
-              child: _buildItemCard(context),
-            ),
-          )
-        : Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: _buildItemCard(context),
-          );
-  }
-
-  Widget _buildItemCard(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.only(left: 9, right: 22, top: 10, bottom: 20),
+      margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
           color: FrontEndConfigs.kWhiteColor,
           borderRadius: BorderRadius.circular(6)),

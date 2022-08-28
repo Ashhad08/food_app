@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/configuration/front_end.dart';
 import 'package:food_app/presentation/elements/custom_text.dart';
-import 'package:food_app/presentation/elements/items_search_field.dart';
+import 'package:food_app/presentation/elements/items_search_card.dart';
 
 import 'widgets/grocery_list_items_tile.dart';
 import 'widgets/my_pop_up_menu.dart';
@@ -39,7 +39,7 @@ class GroceryListViewBody extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              const ItemsSearchField(),
+              const ItemSearchContainer(),
               const SizedBox(
                 height: 20,
               ),

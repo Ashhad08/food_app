@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../../configuration/front_end.dart';
 import '../../../elements/custom_text.dart';
 import '../../../elements/item_card.dart';
-import '../../../elements/items_search_field.dart';
+import '../../../elements/items_search_card.dart';
 
 class MyFoodListViewBody extends StatefulWidget {
   const MyFoodListViewBody({Key? key}) : super(key: key);
@@ -76,7 +76,7 @@ class _MyFoodListViewBodyState extends State<MyFoodListViewBody> {
                   const SizedBox(
                     height: 15,
                   ),
-                  const ItemsSearchField(),
+                  const ItemSearchContainer(),
                   const SizedBox(
                     height: 13,
                   ),
@@ -129,7 +129,29 @@ class _MyFoodListViewBodyState extends State<MyFoodListViewBody> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 ItemDetailsView(
-                                                    _foodList[index])));
+                                                    _foodList[index]
+                                                        .foodId
+                                                        .toString(),
+                                                    _foodList[index]
+                                                        .name
+                                                        .toString(),
+                                                    _foodList[index]
+                                                        .image
+                                                        .toString(),
+                                                    _foodList[index]
+                                                        .quantity
+                                                        .toString(),
+                                                    _foodList[index]
+                                                        .expiryDate
+                                                        .toString(),
+                                                    _foodList[index]
+                                                        .description
+                                                        .toString(),
+                                                    _foodList[index]
+                                                        .isVegetable!,
+                                                    _foodList[index].isFruit!,
+                                                    _foodList[index].isDairy!,
+                                                    _foodList[index].isMeat!)));
                                   },
                                   child: ItemCard(
                                     itemPicture:

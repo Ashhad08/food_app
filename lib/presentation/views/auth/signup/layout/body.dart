@@ -4,7 +4,6 @@ import 'package:food_app/backend/models/user.dart';
 import 'package:food_app/backend/services/auth.dart';
 import 'package:food_app/backend/services/system.dart';
 
-import 'package:food_app/configuration/back_end.dart';
 import 'package:food_app/presentation/views/bottom_bar/bottom_bar.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';

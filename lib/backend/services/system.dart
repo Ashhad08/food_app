@@ -74,7 +74,6 @@ class SystemServices {
             .toList());
   }
 
-
   Stream<UserModel> fetchCurrentUserName() {
     return FirebaseFirestore.instance
         .collection('usersCollection')

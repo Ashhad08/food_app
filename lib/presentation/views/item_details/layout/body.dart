@@ -2,15 +2,35 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_app/backend/models/food_item.dart';
 import 'package:food_app/configuration/back_end.dart';
 import 'package:food_app/configuration/front_end.dart';
 
 import 'package:food_app/presentation/elements/custom_text.dart';
 
 class ItemDetailsViewBody extends StatefulWidget {
-  const ItemDetailsViewBody(this._foodItemModel, {Key? key}) : super(key: key);
-  final FoodItemModel _foodItemModel;
+  const ItemDetailsViewBody(
+      this._foodId,
+      this._foodName,
+      this._foodImage,
+      this._foodQuantity,
+      this._foodExpiryDate,
+      this._foodDescription,
+      this._isVegetable,
+      this._isFruit,
+      this._isDairy,
+      this._isMeat,
+      {Key? key})
+      : super(key: key);
+  final String _foodId;
+  final String _foodName;
+  final String _foodImage;
+  final String _foodQuantity;
+  final String _foodExpiryDate;
+  final String _foodDescription;
+  final bool _isVegetable;
+  final bool _isFruit;
+  final bool _isDairy;
+  final bool _isMeat;
 
   @override
   State<ItemDetailsViewBody> createState() => _ItemDetailsViewBodyState();
@@ -36,9 +56,9 @@ class _ItemDetailsViewBodyState extends State<ItemDetailsViewBody> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: CachedNetworkImage(
-                  imageUrl: widget._foodItemModel.image.toString().isEmpty
+                  imageUrl: widget._foodImage.toString().isEmpty
                       ? 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
-                      : widget._foodItemModel.image.toString(),
+                      : widget._foodImage.toString(),
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       Center(
                           child: CircularProgressIndicator(
@@ -63,7 +83,7 @@ class _ItemDetailsViewBodyState extends State<ItemDetailsViewBody> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomText(
-                            text: widget._foodItemModel.name.toString(),
+                            text: widget._foodName.toString(),
                             fontSize: 16,
                             fontWeight: FontWeight.w500),
                         Image.asset(
@@ -81,7 +101,7 @@ class _ItemDetailsViewBodyState extends State<ItemDetailsViewBody> {
                       children: [
                         _buildCategoryText(),
                         CustomText(
-                            text: 'QTY: ${widget._foodItemModel.quantity}',
+                            text: 'QTY: ${widget._foodQuantity}',
                             fontSize: 12,
                             fontWeight: FontWeight.w500),
                       ],
@@ -91,14 +111,14 @@ class _ItemDetailsViewBodyState extends State<ItemDetailsViewBody> {
                     ),
                     CustomText(
                         text:
-                            'Expiry Date: ${widget._foodItemModel.expiryDate.toString()}',
+                            'Expiry Date: ${widget._foodExpiryDate.toString()}',
                         fontSize: 12,
                         fontWeight: FontWeight.w500),
                     const SizedBox(
                       height: 10,
                     ),
                     CustomText(
-                        text: widget._foodItemModel.description.toString(),
+                        text: widget._foodDescription.toString(),
                         fontSize: 12,
                         align: TextAlign.start,
                         textColor: FrontEndConfigs.kSubTextColor,
@@ -144,25 +164,25 @@ class _ItemDetailsViewBodyState extends State<ItemDetailsViewBody> {
   }
 
   Widget _buildCategoryText() {
-    if (widget._foodItemModel.isVegetable == true) {
+    if (widget._isVegetable == true) {
       return const CustomText(
           text: 'Vegetable',
           fontSize: 12,
           textColor: Color(0xff848484),
           fontWeight: FontWeight.w500);
-    } else if (widget._foodItemModel.isFruit == true) {
+    } else if (widget._isFruit == true) {
       return const CustomText(
           text: 'Fruit',
           fontSize: 12,
           textColor: Color(0xff848484),
           fontWeight: FontWeight.w500);
-    } else if (widget._foodItemModel.isDairy == true) {
+    } else if (widget._isDairy == true) {
       return const CustomText(
           text: 'Dairy',
           fontSize: 12,
           textColor: Color(0xff848484),
           fontWeight: FontWeight.w500);
-    } else if (widget._foodItemModel.isMeat == true) {
+    } else if (widget._isMeat == true) {
       return const CustomText(
           text: 'Meat',
           fontSize: 12,
@@ -178,7 +198,7 @@ class _ItemDetailsViewBodyState extends State<ItemDetailsViewBody> {
   }
 
   _markAsFavourite() {
-    BackEndConfigs.kFoodItemsCollection.doc(widget._foodItemModel.foodId).set({
+    BackEndConfigs.kFoodItemsCollection.doc(widget._foodId).set({
       "isFavourite":
           FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid]),
     }, SetOptions(merge: true)).whenComplete(() {
@@ -195,7 +215,7 @@ class _ItemDetailsViewBodyState extends State<ItemDetailsViewBody> {
   }
 
   _removeAsFavourite() {
-    BackEndConfigs.kFoodItemsCollection.doc(widget._foodItemModel.foodId).set({
+    BackEndConfigs.kFoodItemsCollection.doc(widget._foodId).set({
       "isFavourite":
           FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
     }, SetOptions(merge: true)).whenComplete(() {
@@ -212,7 +232,7 @@ class _ItemDetailsViewBodyState extends State<ItemDetailsViewBody> {
 
   _getFavouriteId() async {
     BackEndConfigs.kFoodItemsCollection
-        .doc(widget._foodItemModel.foodId)
+        .doc(widget._foodId)
         .snapshots()
         .listen((DocumentSnapshot snapshot) {
       setState(() {

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../backend/models/food_item.dart';
 import '../../../elements/item_card.dart';
-import '../../../elements/items_search_field.dart';
+import '../../../elements/items_search_card.dart';
 import '../../item_details/item_details_view.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -40,7 +40,7 @@ class HomeViewBody extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              const ItemsSearchField(),
+              const ItemSearchContainer(),
               const SizedBox(
                 height: 13,
               ),
@@ -92,8 +92,23 @@ class HomeViewBody extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            ItemDetailsView(_foodList[index])));
+                                        builder: (context) => ItemDetailsView(
+                                            _foodList[index].foodId.toString(),
+                                            _foodList[index].name.toString(),
+                                            _foodList[index].image.toString(),
+                                            _foodList[index]
+                                                .quantity
+                                                .toString(),
+                                            _foodList[index]
+                                                .expiryDate
+                                                .toString(),
+                                            _foodList[index]
+                                                .description
+                                                .toString(),
+                                            _foodList[index].isVegetable!,
+                                            _foodList[index].isFruit!,
+                                            _foodList[index].isDairy!,
+                                            _foodList[index].isMeat!)));
                               },
                               child: ItemCard(
                                 itemPicture: _foodList[index].image.toString(),
